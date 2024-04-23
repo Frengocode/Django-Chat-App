@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eff0f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #messages {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        #messages p {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            background-color: #f5f5f5;
+            position: relative;
+        }
+
+        #messages p b {
+            color: #007bff;
+        }
+
+        #messages img {
+            width: 50px; /* Измените размеры по вашему усмотрению */
+            height: 50px; /* Измените размеры по вашему усмотрению */
+            object-fit: cover; /* Обрезка изображения для соответствия размерам контейнера */
+            border-radius: 5px; /* Добавление закругления углов */
+            margin-right: 10px;
+        }
+
+        .message-delete {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: #999;
+            cursor: pointer;
+        }
+
+        .message-delete:hover {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        form textarea {
+            width: calc(100% - 10px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        form .file-upload {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        form .file-upload:hover {
+            background-color: #0056b3;
+        }
+
+        form .file-upload i {
+            margin-right: 5px;
+        }
+
+        form .file-upload input[type="file"] {
+            display: none;
+        }
+
+        form button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        form button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        form button[type="submit"] i {
+            margin-right: 5px;
+        }
+
+        .avatar-placeholder {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #ccc;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        }
+
+        .update-button {
+            background-color: #ffc107;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .update-button:hover {
+            background-color: #ffab00;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chat Room</h1>
+        <div id="messages">
+            {% for message in messages %}
+                <div id="messages">
+                    {% if message.author.profile_photo %}
+                        <img src="{{ message.author.profile_photo.url }}" alt="">
+                    {% endif %}
+                    <p>
+                        {% if message.img_file %}
+                        <img src="{{ message.img_file.url }}" alt="Message Image">
+                    {% endif %}
+
+                        <b>{{ message.author.username }}:</b> {% if message.content %} {{ message.content }} {% endif %}
+                        </span>
+                    </p> 
+                    {% if message.author.username == request.user.username %}
+                        <form action="{% url "messages_delete" message.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                        <a href="{% url "message_update" message.id %}">
+                            <button class="update-button">
+                                <i class="fas fa-pencil-alt"></i> Update Message
+                            </button>
+                        </a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit"><i class="fas fa-paper-plane"></i> Send</button>
+        </form>
+    </div>
+</body>
+</html>

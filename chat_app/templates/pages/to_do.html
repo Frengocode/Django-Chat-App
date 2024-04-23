@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eff0f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .to-do {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .to-do h1 {
+            margin-bottom: 5px;
+        }
+
+        .to-do h2 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .to-do img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .to-do form {
+            display: inline-block;
+        }
+
+        .to-do form button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .to-do form button:hover {
+            background-color: #c82333;
+        }
+
+        .add-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .add-button a button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-button a button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Favorites</h1>
+        {% for i in to_dos %}
+            <div class="to-do">
+                <h1>{{ i.to_do }}</h1>
+                <h2>{{ i.created_at }}</h2>
+                {% if i.img %}
+                    <img src="{{ i.img.url }}" alt="">
+                {% endif %}
+                <form action="{% url 'to_do_delete' i.id %}" >
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+                <div class="add-button">
+                    <a href="{% url "todo_update_form" i.id %}"><button>Update</button></a>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="add-button">
+            <a href="{% url 'to_do_form' %}">
+                <button>Add</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

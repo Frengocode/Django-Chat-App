@@ -1,0 +1,102 @@
+<!-- Стили для формы поиска -->
+<style>
+    .search-form {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        flex: 1;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .search-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #0088cc;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .search-button:hover {
+        background-color: #005580;
+    }
+    .user-photo {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; /* Применяем скругление для создания круглой формы */
+        margin-right: 10px;
+    }
+    .search-results {
+        list-style: none;
+        padding: 0;
+    }
+
+    .user-link {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        text-decoration: none;
+        background-color: #f2f2f2;
+        color: #333;
+        transition: background-color 0.3s;
+    }
+
+    .user-link:hover {
+        background-color: #e5e5e5;
+    }
+
+    .user-photo {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+    }
+    .avatar-placeholder {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #ccc;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+    }
+</style>
+
+<!-- Форма поиска пользователей -->
+<form method="GET" class="search-form">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="search-button">Search</button>
+</form>
+
+<!-- Результаты поиска пользователей -->
+<div class="search-results">
+    {% if users %}
+        {% for user in users %}
+                        <a href="{% url 'user_profile' user.username %}" class="user-link">
+                <!-- Фотография пользователя в круглой форме -->
+                {% if user.profile_photo %}
+                <img src="{{ user.profile_photo.url }}" alt="User Photo" class="user-photo">
+                {% else %}
+                <div class="avatar-placeholder">{{ user.username|first|upper }}</div>
+                {% endif %}
+                {{ user.username }}
+            </a>
+        {% endfor %}
+    {% else %}
+        <p>No users found</p>
+    {% endif %}
+</div>

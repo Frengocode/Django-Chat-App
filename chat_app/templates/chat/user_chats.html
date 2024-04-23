@@ -1,0 +1,16 @@
+<!-- chat/templates/chat/user_chats.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Chats</title>
+</head>
+<body>
+    <h1>Your Chats</h1>
+    <ul>
+        {% for chat in user_chats %}
+            <li><a href="{% url 'chat_room' chat.id %}">Chat with {{ chat.participants }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

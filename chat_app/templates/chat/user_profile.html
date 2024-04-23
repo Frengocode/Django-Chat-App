@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой канал</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="channel">
+        <div class="channel-header">
+            {% if profile_user.profile_photo %}
+            <img src="{{ profile_user.profile_photo.url }}" alt="Аватар канала">
+            {% else %}
+            <div class="avatar-placeholder">{{ profile_user.username|first|upper }}</div>
+            {% endif %}
+            <div class="channel-info">
+                <h1>{{ profile_user.username }}</h1>
+                <p>{{ profile_user.profile_info }}</p>
+                <p> Bithday Date {{ profile_user.birthday_date }}</p>
+            </div>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Create Chat</button>
+        </form>
+        <form action="{% url "follow_to_user" profile_user.id %}">
+            {% csrf_token %}
+            {{ profile_user.follow.count }}
+            <button type="submit">Follow</button>
+        </form>
+        <a href="{% url "get_followers" profile_user.username %}"><button>Subscribers</button></a>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+<!--  -->
+</nav>
+
+
+
+
+<style>
+
+.avatar-placeholder {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #ccc;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px;
+    }
+
+.bottom-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            border-top: 1px solid #ccc;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .menu-item {
+            text-align: center;
+            flex: 1;
+            text-decoration: none;
+            color: #888;
+        }
+
+        .menu-item:hover {
+            color: #ff0000;
+        }
+
+        .menu-item i {
+            font-size: 20px;
+        }
+
+        .menu-item span {
+            display: block;
+            font-size: 12px;
+        }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.channel {
+    max-width: 800px; /* Максимальная ширина контейнера канала */
+    margin: 20px auto; /* Центрирование по горизонтали */
+    border: 1px solid #ddd; /* Граница контейнера */
+    border-radius: 8px; /* Закругление углов */
+    background-color: #f9f6f0; /* Цвет фона контейнера */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень контейнера */
+}
+
+.channel-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd; /* Граница под заголовком */
+}
+
+.channel-header img {
+    width: 100px; /* Ширина аватара канала */
+    height: 100px; /* Высота аватара канала */
+    border-radius: 50%; /* Закругление аватара */
+    margin-right: 20px;
+}
+
+.channel-info h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.channel-info p {
+    margin: 5px 0;
+    color: #666; /* Цвет текста информации о канале */
+}
+
+.channel-description,
+.channel-videos {
+    padding: 20px;
+}
+
+.channel-description h2,
+.channel-videos h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #333; /* Цвет заголовков разделов */
+}
+
+.channel-description p {
+    margin: 10px 0;
+    color: #666; /* Цвет текста описания канала */
+}
+
+.video {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.video img {
+    width: 120px; /* Ширина изображения видео */
+    height: 90px; /* Высота изображения видео */
+    margin-right: 20px;
+    border-radius: 8px; /* Закругление углов изображения */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень изображения */
+}
+
+.video h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333; /* Цвет названия видео */
+}
+
+form {
+            text-align: center;
+            margin-top: 20px; /* Добавлен верхний отступ */
+        }
+
+        button {
+            background-color: #0088cc; /* Цвет кнопки */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            /* Добавлены тени */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Добавлены стили при наведении */
+            outline: none; /* Убираем рамку при фокусе */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Изменен цвет при наведении */
+        }
+
+</style>

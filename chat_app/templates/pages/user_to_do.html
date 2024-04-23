@@ -1,0 +1,46 @@
+<form id="news-form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" id="submit-btn" onclick="submitForm()">Отправить</button>
+</form>
+
+
+<script>
+function submitForm() {
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('news-form').submit();
+}
+</script>
+
+
+
+<style>
+    /* Стили для поля ввода пароля */
+#news-form input[type="password"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Стили для поля ввода пароля при заполнении браузером */
+#news-form input[type="password"]:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    border: 1px solid #ccc; /* Цвет границы может быть изменен */
+}
+
+/* Стили для кнопки отправки формы */
+#submit-btn {
+    padding: 10px 20px;
+    background-color: #0088cc; /* Цвет кнопки */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#submit-btn:hover {
+    background-color: #005580; /* Цвет кнопки при наведении */
+}
+
+</style>
